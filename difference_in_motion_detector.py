@@ -54,6 +54,8 @@ while True:
         cv2.rectangle(frame,(x, y), (x+w, y+h), (0, 255, 0), 3)
     
     motion_status_list.append(motion_status)
+    #keep only the useful values
+    motion_status_list = motion_status_list[-2:]
     #capture motion time
     if motion_status_list[-1] == 1 and motion_status_list[-2] == 0:
         times.append(datetime.now())
@@ -78,6 +80,8 @@ while True:
 #append time values to the dataframe and save it
 for i in range(0, len(times), 2):    
     df = df.append({"Start" : times[i], "End" : times[i+1]}, ignore_index=True)
+
+df.to_csv("Times.csv")
 
 #release the video
 video.release()
